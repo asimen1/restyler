@@ -76,6 +76,7 @@ let RulesAdder = React.createClass({
                         </input>
                         <input type = 'color' defaultValue = '#0000ff' autoComplete
                                className = { colorInputClassName }
+                               tabIndex = '-1'
                                onChange = {
                                    function(e) {
                                        this.onColorInputChangeHandler(e, this.origValInput);
@@ -95,6 +96,7 @@ let RulesAdder = React.createClass({
                             </input>
                             <input type = 'color' defaultValue = '#0000ff' autoComplete
                                    className = { colorInputClassName }
+                                   tabIndex = '-1'
                                    onChange = {
                                        function(e) {
                                            this.onColorInputChangeHandler(e, this.newValInput);
