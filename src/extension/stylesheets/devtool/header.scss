@@ -1,0 +1,72 @@
+#header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: -5px;
+
+    #headerLeftSection {
+        display: flex;
+        align-items: center;
+
+        #name {
+            color: white;
+            font-size: 16px;
+            font-family: cursive;
+            margin-right: 22px;
+        }
+    }
+
+    #headerRightSection {
+        display: flex;
+        align-items: center;
+
+        a {
+            margin: 0px 12px;
+        }
+    }
+
+    #menuIcon {
+        padding: 0px 8px;
+        margin-right: 0px !important;
+
+        &.open {
+            color: gold;
+        }
+    }
+
+    #menu {
+        display: none;
+        opacity: 0.9;
+        position: absolute;
+        top: 28px;
+        right: 6px;
+        padding: 5px;
+
+        /* The animation code */
+        @keyframes slideDown {
+            from { top: 10px; }
+            to { top: 28px; }
+        }
+
+        &.visible {
+            display: block;
+            animation-name: slideDown;
+            animation-duration: 0.5s;
+        }
+
+        li {
+            list-style-type: none;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 2px 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 5px;
+            text-align: right;
+
+            &:hover {
+                color: gold;
+            }
+        }
+    }
+}

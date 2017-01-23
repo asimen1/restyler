@@ -1,0 +1,29 @@
+.rule {
+    &.disabled {
+        color: lightgray;
+    }
+
+    .dragHandle {
+        font-weight: bold;
+        text-align: center;
+        cursor: grab;
+        cursor: -moz-grab;
+        cursor: -webkit-grab;
+    }
+
+    .dragHandle:active {
+        cursor: grabbing;
+        cursor: -moz-grabbing;
+        cursor: -webkit-grabbing;
+    }
+
+    .ruleControls {
+        opacity: 1 !important;
+        border-right: none !important;
+        text-align: right;
+
+        // Initial width so border will fit nicely at the left side
+        // NOTE: duplicate width, Matches the colReisable 'minWidth' + margin.
+        width: 102px !important; // NOTE: 'important' so colResizable wont affect this.
+    }
+}

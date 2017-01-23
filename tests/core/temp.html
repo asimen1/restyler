@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style type="text/css">
+            .rect {
+                background-color: blue;
+                height:50px;
+                width:50px
+            }
+
+            .test {
+                background-color: purple !important;
+            }
+        </style>
+    </head>
+    <body style="background-color:white">
+        <div id="div1" style="background-color:red;height:50px;width:50px"></div>
+
+        <div id="container">
+            <div id="div2" class="rect"></div>  
+        </div>
+
+        <div id="div3" class="rect" style="background-color:white"></div>  
+
+        <script src="../dist/restyler.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                Restyler.init();
+            });
+        </script>
+    </body>
+</html>

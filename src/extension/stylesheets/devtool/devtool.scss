@@ -1,0 +1,101 @@
+html {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    -webkit-box-sizing: inherit;
+    -moz-box-sizing: inherit;
+    box-sizing: inherit;
+}
+
+body {
+    // Disable text selection for everything by default.
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+    -khtml-user-select: none; /* Konqueror */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                          not supported by any browser */
+
+    // Keep arrow cursor (also for text elements).
+    cursor: default;
+
+    margin: 0px;
+
+    // To fix when using devtools dark theme :)
+    background-color: white;
+}
+
+.ui-tooltip {
+    background-color: antiquewhite;
+    font-weight: bold;
+}
+
+button:focus {
+    outline: none;
+}
+
+button {
+    min-width: 80px;
+    background-color: #430e44;
+    color: white;
+    cursor: pointer;
+    border: none;
+    margin-left: 8px;
+    padding: 2px 18px;
+    font-size: 13px;
+
+    &.disabled {
+        color: gray;
+        cursor: default;
+        //pointer-events: none;
+    }
+
+    &:hover:not(.disabled) {
+        color: gold
+    }
+}
+
+a {
+    cursor: pointer;
+    color: white;
+
+    &:not(.link) {
+        margin: 0px 8px;
+        text-shadow: -2px 2px 2px rgba(0,0,0, 0.4);
+        font-size: 14px;
+        letter-spacing: 0.3px;
+    }
+
+    &.disabled {
+        opacity: 0.3;
+        cursor: default;
+        //pointer-events: none;
+    }
+
+    &:hover:not(.disabled) {
+        color: gold
+    }
+}
+
+.JCLRgrip {
+    // Note: removes strange grip in offset place when dragging.
+    margin-left: -2px !important;
+}
+
+#devtool {
+    min-width: 800px;
+    white-space: nowrap;
+
+    #name {
+        color: white;
+    }
+
+    #topPart {
+        background-image: url('data:image/jpeg;base64,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');
+        background-size: 100%;
+        padding: 15px 15px 20px 15px;
+    }
+}

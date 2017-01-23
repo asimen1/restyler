@@ -1,0 +1,90 @@
+//import {} from '../common/logWithDate.js';
+import Messenger from '../common/messenger.js';
+import Messages from '../common/messages.js';
+
+let messenger = new Messenger();
+let devtoolInited = {};
+
+function openHelpPage() {
+    chrome.tabs.create({ url: 'https://asimen1.github.io/restyler/help.html' });
+}
+
+// Show help page on first install.
+chrome.runtime.onInstalled.addListener(function(details) {
+    if (details.reason === 'install') {
+        openHelpPage();
+    }
+});
+
+function messageHandler(message, sender, sendResponse) {
+    //console.log('background - messageHandler()', arguments);
+
+    if (message.name === Messages.GET_CURRENT_STATE) {
+        if (devtoolInited[sender.tab.id]) {
+            messenger.sendHubMessage('devtool', 'main', sender.tab.id, {
+                name: Messages.GET_CURRENT_STATE
+            }, function(response) {
+                sendResponse(response);
+            });
+        } else {
+            // Devtool isn't open/inited yet, initial state is good.
+            sendResponse({
+                rules: [],
+                enabled: true,
+                textEditingEnabled: false
+            });
+        }
+    } else if (message.name === Messages.GET_TAB_URL) {
+        chrome.tabs.get(message.tabId, function(tab) {
+            sendResponse(tab.url);
+        });
+    } else if (message.name === Messages.GET_TAB_STATUS) {
+        chrome.tabs.get(message.tabId, function(tab) {
+            sendResponse(tab.status);
+        });
+    } else if (message.name === Messages.FOCUS_TAB) {
+        chrome.tabs.get(message.tabId, function(tab) {
+            chrome.windows.update(tab.windowId, { focused: true }, function() {
+                chrome.tabs.update(message.tabId, { active: true });
+            });            
+        });
+    } else if (message.name === Messages.SHOW_HELP) {
+        openHelpPage();
+    }
+}
+
+function devtoolConnectionInitHandler(port, tabId) {
+    devtoolInited[tabId] = true;
+}
+
+function devtoolDisconnectHandler(disconnectedPort, tabId) {
+    delete devtoolInited[tabId];
+
+    // Reset current tab restyling when devtool closes/disconnects.
+    messenger.sendHubMessage('content_script', 'main', tabId, {
+        name: Messages.ACTION,
+        method: 'reset'
+    });
+
+    // Stop inspecting in case started.
+    messenger.sendHubMessage('content_script', 'main', tabId, {
+        name: Messages.STOP_INSPECT
+    });
+}
+
+messenger.initBackgroundHub(messageHandler, {
+    devtoolConnectionInitHandler: devtoolConnectionInitHandler,
+    devtoolDisconnectHandler: devtoolDisconnectHandler
+});
+
+// Notify devtool when tab updated (reload, navigation, ...).
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+    //console.log('tab onupdated', arguments);
+
+    messenger.sendHubMessage('devtool', ['main', 'rules_adder'], tabId, {
+        name: Messages.TAB_ON_UPDATED,
+        tabId: tabId,
+        changeInfo: changeInfo,
+        tab: tab
+    });
+});

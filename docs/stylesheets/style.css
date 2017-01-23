@@ -1,0 +1,64 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+/* line 12, ../sass/style.scss */
+body {
+  font-family: "Raleway", sans-serif;
+  text-align: center;
+  background: url("../images/bg.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+/* line 23, ../sass/style.scss */
+h1 {
+  font-size: 48px;
+  font-family: "Kaushan Script", cursive;
+  font-weight: normal;
+}
+
+/* line 29, ../sass/style.scss */
+section {
+  text-align: left;
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+/* line 35, ../sass/style.scss */
+img {
+  max-width: 100%;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0px 30px 15px -20px rgba(0, 0, 0, 0.4);
+}
+
+/* line 42, ../sass/style.scss */
+li {
+  margin-bottom: 20px;
+}
+
+/* line 46, ../sass/style.scss */
+a {
+  color: #fff;
+}
+/* line 49, ../sass/style.scss */
+a:hover {
+  color: gold;
+}
+
+/* line 55, ../sass/style.scss */
+section#comments li, section#links li {
+  margin-bottom: 10px;
+}
+
+/* line 58, ../sass/style.scss */
+footer {
+  background: rgba(0, 0, 0, 0.5);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
+  padding: 40px 0 100px 0;
+}
