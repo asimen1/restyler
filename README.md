@@ -1,4 +1,3 @@
-# Restyler
 ## A devtool extension for easy restyling of any webpage
 
 [Get the extension (Chrome Webstore)](https://chrome.google.com/webstore/detail/restyler/ofkkcnbmhaodoaehikkibjanliaeffel)
@@ -33,7 +32,7 @@ You can now load it via the chrome extensions page chrome://extensions/ -> "Load
 * Add the number of matched/modified elements for each rule (can show total matches in extension badge).
 * Allow user to save rules as presets (and not just export to file).
 * Gulp task to package extension (with version number injection).
-* Add tests, JUnit? Mocha? Testim.io?
+* Add tests.
 
 License
 ----
