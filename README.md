@@ -14,7 +14,10 @@ Perfect for testing out design changes or rebranding on an existing page!
 
 ★ Share your styling rules as a config or a CSS file.
 
+Built with [react](https://facebook.github.io/react/) + [webpack](https://webpack.github.io/).
+
 ### Developing Locally
+
     # install webpack
     npm install webpack -g
 
