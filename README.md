@@ -18,10 +18,10 @@ Built with [react](https://facebook.github.io/react/) + [webpack](https://webpac
 
 ### Developing Locally
 
-    # install webpack
+    // install webpack
     npm install webpack -g
 
-    # run the dev script
+    // run the dev script
     npm run dev
 
 The extension is built to the _dist_ folder. 
