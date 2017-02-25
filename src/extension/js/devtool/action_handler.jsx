@@ -4,7 +4,7 @@ import PubSub from 'pubsub-js';
 
 import Actions from './actions.jsx';
 import Helpers from './helpers.jsx';
-import Messenger from '../common/messenger.js';
+import Messenger from 'chrome-ext-messenger';
 import Messages from '../common/messages.js';
 
 import exportCSSTemplate from './templates/export_css.handlebars';
@@ -28,7 +28,7 @@ let isInGroupActions = false;
 let groupMessages = [];
 
 let messenger = new Messenger();
-messenger.initConnection('devtool', 'action_handler');
+let connection = messenger.initConnection('action_handler');
 
 function handleResponse(response, disableAddUndo, disableResetRedo) {
     //console.log('[ActionHandler - response from content script]', response);
@@ -70,7 +70,7 @@ function sendMessage(message, options) {
         let disableAddUndo = options.disableAddUndo || false; // Default false (will stay false if given explicitly)
         let disableResetRedo = options.disableResetRedo || false; // Default false will stay false (will stay false if given explicitly).
 
-        messenger.sendMessage('content_script', 'main', {
+        connection.sendMessage('content_script:main', {
             name: Messages.ACTION,
             method: method,
             arguments: argsArr

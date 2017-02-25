@@ -1,12 +1,12 @@
 'use strict';
 
-import Messenger from '../common/messenger.js';
+import Messenger from 'chrome-ext-messenger';
 import Messages from '../common/messages.js';
 
 let _tabId = chrome.devtools.inspectedWindow.tabId;
 
 let messenger = new Messenger();
-messenger.initConnection('devtool', 'tab_helper');
+let connection = messenger.initConnection('tab_helper');
 
 let TabHelper = {
     getTabId: function() {
@@ -14,7 +14,7 @@ let TabHelper = {
     },
 
     getTabUrl: function(cb) {
-        messenger.sendMessageToHub({
+        connection.sendMessage('background:main', {
             name: Messages.GET_TAB_URL,
             tabId: _tabId
         }, function(response) {
@@ -23,7 +23,7 @@ let TabHelper = {
     },
 
     getTabStatus: function(cb) {
-        messenger.sendMessageToHub({
+        connection.sendMessage('background:main', {
             name: Messages.GET_TAB_STATUS,
             tabId: _tabId
         }, function(response) {

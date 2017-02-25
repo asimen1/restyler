@@ -1,5 +1,5 @@
 //import {} from '../common/logWithDate.js';
-import Messenger from '../common/messenger.js';
+import Messenger from 'chrome-ext-messenger';
 import Messages from '../common/messages.js';
 import { startInspect, stopInspect } from './inspect.js';
 
@@ -14,7 +14,7 @@ try {
 
 Restyler.init();
 
-let messageHandler = function(message, sender, sendResponse) {
+let messageHandler = function(message, from, sender, sendResponse) {
     //console.log('content_script messageHandler()', arguments);
 
     if (message.name === Messages.ACTION) {
@@ -48,11 +48,11 @@ let messageHandler = function(message, sender, sendResponse) {
     }
 };
 
-messenger.initConnection('content_script', 'main', messageHandler);
+let connection = messenger.initConnection('main', messageHandler);
 
 // Passing through the background page because devtool window might be closed
 // and we won't know because no response will be sent.
-messenger.sendMessageToHub({ name: Messages.GET_CURRENT_STATE }, function(response) {
+connection.sendMessage('background:main', { name: Messages.GET_CURRENT_STATE }, function(response) {
     //console.log('content_script getCurrentState response', arguments);
 
     Restyler.setRules(response.rules);
@@ -69,7 +69,7 @@ messenger.sendMessageToHub({ name: Messages.GET_CURRENT_STATE }, function(respon
     // Set 'ready' and if we are the top page, send the 'restylerReady' event.
     isRestylerReady = true;
     if (isTopPage) {
-        messenger.sendMessage('devtool', 'main', { name: Messages.RESTYLER_READY });    
+        connection.sendMessage('devtool:main', { name: Messages.RESTYLER_READY });    
     }
 });
 

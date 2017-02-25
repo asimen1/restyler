@@ -8,7 +8,7 @@ import TabHelper from './tab_helper.jsx';
 import Actions from './actions.jsx';
 import ActionHandler from './action_handler.jsx';
 import Helpers from './helpers.jsx';
-import Messenger from '../common/messenger.js';
+import Messenger from 'chrome-ext-messenger';
 import Messages from '../common/messages.js';
 import CSS from './css.jsx';
 
@@ -131,7 +131,7 @@ let RulesAdder = React.createClass({
     },
 
     componentWillMount: function() {
-        messenger.initConnection('devtool', 'rules_adder', this.messageHandler);
+        this.connection = messenger.initConnection('rules_adder', this.messageHandler);
         PubSub.subscribe('rule.copyValues', this.copyValuesHandler);
     },
 
@@ -189,7 +189,7 @@ let RulesAdder = React.createClass({
     },
 
     stopInspect: function() {
-        messenger.sendMessage('content_script', 'main', {
+        this.connection.sendMessage('content_script:main', {
             name: Messages.STOP_INSPECT
         });
 
@@ -197,7 +197,7 @@ let RulesAdder = React.createClass({
     },
 
     startInspect: function() {
-        messenger.sendMessage('content_script', 'main', {
+        this.connection.sendMessage('content_script:main', {
             name: Messages.START_INSPECT
         });
 

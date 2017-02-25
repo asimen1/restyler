@@ -6,11 +6,11 @@ import PubSub from 'pubsub-js';
 
 import ActionHandler from './action_handler.jsx';
 import TabHelper from './tab_helper.jsx';
-import Messenger from '../common/messenger.js';
+import Messenger from 'chrome-ext-messenger';
 import Messages from '../common/messages.js';
 
 let messenger = new Messenger();
-messenger.initConnection('devtool', 'header');
+let connection = messenger.initConnection('header');
 
 let HeaderControls = React.createClass({
     propTypes: {
@@ -132,7 +132,7 @@ let HeaderControls = React.createClass({
     },
 
     focusTabHandler: function() {
-        messenger.sendMessageToHub({
+        connection.sendMessage('background:main', {
             name: Messages.FOCUS_TAB,
             tabId: TabHelper.getTabId()
         });
@@ -147,7 +147,7 @@ let HeaderControls = React.createClass({
     },
 
     helpHandler: function() {
-        messenger.sendMessageToHub({
+        connection.sendMessage('background:main', {
             name: Messages.SHOW_HELP
         });
     },

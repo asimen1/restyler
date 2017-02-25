@@ -14,7 +14,7 @@ import Overlay from './overlay.jsx';
 import TabHelper from './tab_helper.jsx';
 import ActionHandler from './action_handler.jsx';
 import Actions from './actions.jsx';
-import Messenger from '../common/messenger.js';
+import Messenger from 'chrome-ext-messenger';
 import Messages from '../common/messages.js';
 
 // Unhide the page on load.
@@ -90,7 +90,7 @@ let Devtools = React.createClass({
         PubSub.subscribe('header.about', this.showAboutPopup);
         PubSub.subscribe('popup.close', this.closePopup);
 
-        messenger.initConnection('devtool', 'main', this.messageHandler);
+        this.connection = messenger.initConnection('main', this.messageHandler);
 
         // MY TODO: doesn't always happen (show dialog) when dev tools is closed... investigate...
         window.onbeforeunload = function(e) {
@@ -107,7 +107,7 @@ let Devtools = React.createClass({
         this.tryActivate();
     },
 
-    messageHandler: function(message, sender, sendResponse) {
+    messageHandler: function(message, from, sender, sendResponse) {
         //console.log('devtools got message', message);
 
         if (message.name === Messages.GET_CURRENT_STATE) {
@@ -147,7 +147,7 @@ let Devtools = React.createClass({
         TabHelper.getTabUrl(function(tabUrl) {
             // If this is a non restylable page, we probably won't get the content script restyler ready event.
             if (this.checkUrlRestylable(tabUrl)) {
-                messenger.sendMessage('content_script', 'main', {
+                this.connection.sendMessage('content_script:main', {
                     name: Messages.IS_RESTYLER_READY
                 }, function(response) {
                     if (response === true) {

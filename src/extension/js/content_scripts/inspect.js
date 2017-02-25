@@ -1,8 +1,8 @@
-import Messenger from '../common/messenger.js';
+import Messenger from 'chrome-ext-messenger';
 import Messages from '../common/messages.js';
 
 let messenger = new Messenger();
-messenger.initConnection('content_script', 'inspect');
+let connection = messenger.initConnection('content_script', 'inspect');
 
 let $inspectedElement = null;
 function onMouseOver() {
@@ -51,7 +51,7 @@ function onInspectClick(e) {
         // We don't want our class name to be in the element path.
         $inspectedElement.removeClass('restylerInspect');
 
-        messenger.sendMessage('devtool', 'rules_adder', {
+        connection.sendMessage('devtool:rules_adder', {
             name: Messages.INSPECT_VALUE,
             value: getInspectValue($inspectedElement)
         });
