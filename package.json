@@ -9,9 +9,9 @@
     "LICENSE.md"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack --watch --progress",
-    "package": ""
+    "build": "set WEBPACK_ENV=build&& webpack --progress",
+    "dev": "set WEBPACK_ENV=dev&& webpack --progress --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": "https://github.com/asimen1/restyler",
   "dependencies": {

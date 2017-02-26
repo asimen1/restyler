@@ -1,12 +1,14 @@
+/* eslint-env node, node */
+
 const webpack = require('webpack');
 
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
-var productionMode = false;
+var env = process.env.WEBPACK_ENV;
 
 var config = {
-    devtool: productionMode ? 'eval' : 'source-map',
+    devtool: env === 'build' ? 'eval' : 'source-map',
 
     entry: {
         // Core files:
@@ -26,7 +28,7 @@ var config = {
     plugins: [
         new webpack.DefinePlugin({
             'process.env': {
-                'NODE_ENV': productionMode ? JSON.stringify('production') : undefined
+                'NODE_ENV': env === 'build' ? JSON.stringify('production') : undefined
             }
         }),
 
