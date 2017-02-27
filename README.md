@@ -18,7 +18,8 @@ Built with [react](https://facebook.github.io/react/) + [webpack](https://webpac
 
 ### Developing Locally
 
-    // install webpack
+    // install dependencies
+    npm install
     npm install webpack -g
 
     // run the dev script
