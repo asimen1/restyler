@@ -52,7 +52,7 @@ let connection = messenger.initConnection('main', messageHandler);
 
 // Passing through the background page because devtool window might be closed
 // and we won't know because no response will be sent.
-connection.sendMessage('background:main', { name: Messages.GET_CURRENT_STATE }, function(response) {
+connection.sendMessage('background:main', { name: Messages.GET_CURRENT_STATE }).then((response) => {
     //console.log('content_script getCurrentState response', arguments);
 
     Restyler.setRules(response.rules);

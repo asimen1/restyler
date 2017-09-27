@@ -30,7 +30,7 @@ function messageHandler(message, from, sender, sendResponse) {
         if (devtoolInited[sender.tab.id]) {
             connection.sendMessage(`devtool:main:${sender.tab.id}`, {
                 name: Messages.GET_CURRENT_STATE
-            }, function(response) {
+            }).then((response) => {
                 sendResponse(response);
             });
         } else {

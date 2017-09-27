@@ -17,7 +17,7 @@ let TabHelper = {
         connection.sendMessage('background:main', {
             name: Messages.GET_TAB_URL,
             tabId: _tabId
-        }, function(response) {
+        }).then((response) => {
             cb(response);
         });
     },
@@ -26,7 +26,7 @@ let TabHelper = {
         connection.sendMessage('background:main', {
             name: Messages.GET_TAB_STATUS,
             tabId: _tabId
-        }, function(response) {
+        }).then((response) => {
             cb(response);
         });
     }

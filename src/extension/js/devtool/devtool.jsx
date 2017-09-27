@@ -149,11 +149,11 @@ let Devtools = React.createClass({
             if (this.checkUrlRestylable(tabUrl)) {
                 this.connection.sendMessage('content_script:main', {
                     name: Messages.IS_RESTYLER_READY
-                }, function(response) {
+                }).then((response) => {
                     if (response === true) {
                         this.setActive();
                     }
-                }.bind(this));
+                });
             } else {
                 this.setDisabled(UNRESTYLEABLE_PAGE_MESSAGE);
             }

@@ -74,7 +74,7 @@ function sendMessage(message, options) {
             name: Messages.ACTION,
             method: method,
             arguments: argsArr
-        }, function(response) {
+        }).then((response) => {
             handleResponse(response, disableAddUndo, disableResetRedo);
         });
     } else if (waitingReponse) {
