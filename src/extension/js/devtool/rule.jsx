@@ -16,6 +16,10 @@ let Rule = React.createClass({
 
     render: function() {
         let rule = this.props.rule;
+
+        // Fix state of rule that has been restored after being removed (via undo for example).
+        rule.removing = false;
+
         let ruleClassName = this.props.rulesEnabled && rule.options.enabled ? '' : 'disabled';
         let enableDisableText = rule.options.enabled ? 'Disable rule' : 'Enable rule';
         let enableDisableImageEl = rule.options.enabled
