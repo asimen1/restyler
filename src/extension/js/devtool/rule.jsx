@@ -18,7 +18,7 @@ let Rule = React.createClass({
         let rule = this.props.rule;
 
         // Fix state of rule that has been restored after being removed (via undo for example).
-        rule.removing = false;
+        rule.isBeingRemoved = false;
 
         let ruleClassName = this.props.rulesEnabled && rule.options.enabled ? '' : 'disabled';
         let enableDisableText = rule.options.enabled ? 'Disable rule' : 'Enable rule';
@@ -83,7 +83,7 @@ let Rule = React.createClass({
 
     removeHandler: function(rule) {
         // NOTE: Fixes user not sending multiple removes when in the middle of removing this rule.
-        if (!rule.removing) {
+        if (!rule.isBeingRemoved) {
             rule.removing = true;
             ActionHandler.handle(Actions.CLEAR, [rule.id]);
 
