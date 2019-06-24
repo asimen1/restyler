@@ -1,6 +1,6 @@
 {
   "name": "restyler",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A devtool extension for easy restyling of any webpage",
   "directories": {
     "test": "tests"
