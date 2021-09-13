@@ -1,6 +1,6 @@
 {
   "name": "restyler",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "A devtool extension for easy restyling of any webpage",
   "directories": {
     "test": "tests"
@@ -32,7 +32,7 @@
     "eslint": "^6.0.0",
     "eslint-plugin-react": "^6.0.0",
     "handlebars-loader": "^1.4.0",
-    "node-sass": "^3.8.0",
+    "node-sass": "^4.14.0",
     "raw-loader": "^0.5.1",
     "sass-loader": "^4.0.0",
     "style-loader": "^0.13.1",
