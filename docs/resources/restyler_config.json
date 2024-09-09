@@ -1,1 +1,11 @@
-[{"id":"691da1cb-fdfd-6a4f-4c24-444a345de047","attr":"background-color","origVal":null,"newVal":"rgb(255, 255, 0)","options":{"selector":"*","enabled":true},"index":0}]
+[{
+    "id": "691da1cb-fdfd-6a4f-4c24-444a345de047",
+    "attr": "background-color",
+    "origVal": null,
+    "newVal": "rgb(255, 255, 0)",
+    "options": {
+        "selector": "*",
+        "enabled": true
+    },
+    "index": 0
+}]

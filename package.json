@@ -1,42 +1,41 @@
 {
   "name": "restyler",
-  "version": "1.2.2",
+  "version": "2.0.0",
   "description": "A devtool extension for easy restyling of any webpage",
-  "directories": {
-    "test": "tests"
-  },
-  "files": [
-    "LICENSE.md"
-  ],
   "scripts": {
-    "build": "set WEBPACK_ENV=build&& webpack --progress",
-    "dev": "set WEBPACK_ENV=dev&& webpack --progress --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --mode production --progress",
+    "dev": "webpack --mode development --progress --watch"
   },
   "repository": "https://github.com/asimen1/restyler",
+  "engines": {
+    "node": "^18.18.0 || ^20.9.0 || >=21.1.0"
+  },
   "dependencies": {
-    "chrome-ext-messenger": "^2.0.10",
-    "handlebars": "^4.0.6",
-    "pubsub-js": "^1.5.4",
-    "react": "^15.3.0",
-    "react-dom": "^15.3.0"
+    "ext-messenger": "^4.0.0",
+    "handlebars": "^4.7.8",
+    "prop-types": "^15.8.1",
+    "pubsub-js": "^1.9.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "babel-core": "^6.13.2",
-    "babel-loader": "^6.2.4",
-    "babel-preset-es2015": "^6.13.2",
-    "babel-preset-react": "^6.11.1",
-    "clean-webpack-plugin": "^0.1.10",
-    "copy-webpack-plugin": "^3.0.1",
-    "css-loader": "^0.23.1",
-    "eslint": "^6.0.0",
-    "eslint-plugin-react": "^6.0.0",
-    "handlebars-loader": "^1.4.0",
-    "node-sass": "^4.14.0",
-    "raw-loader": "^0.5.1",
-    "sass-loader": "^4.0.0",
-    "style-loader": "^0.13.1",
-    "webpack": "^1.13.1"
+    "@babel/core": "^7.24.5",
+    "@babel/preset-env": "^7.24.5",
+    "@babel/preset-react": "^7.24.1",
+    "@eslint/js": "^9.2.0",
+    "babel-loader": "^9.1.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^12.0.2",
+    "css-loader": "^7.1.1",
+    "eslint-plugin-react": "^7.34.1",
+    "globals": "^15.2.0",
+    "handlebars-loader": "^1.7.3",
+    "node-sass": "^9.0.0",
+    "raw-loader": "^4.0.2",
+    "sass-loader": "^14.2.1",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
   },
   "author": "Asaf Menahem",
   "license": "MIT"

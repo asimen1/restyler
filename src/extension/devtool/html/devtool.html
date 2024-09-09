@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+    <head>
+        <style>
+            body {
+                /* unhides on page load */
+                opacity: 0;
+                transition: opacity 0.1s ease-in;
+            }
+            .uncloak {
+                opacity: 1;
+            }
+        </style>
+
+        <!-- NOTE: Bringing files locally does not violate CSP and also allow the extension to run offline -->
+        <link rel="stylesheet" href="/vendor/jquery-ui-1.13.3.min.css">
+        <link rel="stylesheet" href="/vendor/fontawesome-free-6.5.2-web/css/fontawesome.min.css">
+        <link rel="stylesheet" href="/vendor/fontawesome-free-6.5.2-web/css/regular.min.css">
+        <link rel="stylesheet" href="/vendor/fontawesome-free-6.5.2-web/css/solid.min.css">
+        <script src="/vendor/jquery-3.7.1.min.js"></script>
+        <script src="/vendor/jquery-ui-1.13.3.min.js"></script>
+        <script src="/vendor/colResizable-1.6.min.js"></script>
+    </head>
+    <body>
+        <div id="devtoolContainer"></div>
+        <script src="/devtool/devtool.min.js"></script>
+    </body>
+</html>

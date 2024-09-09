@@ -1,0 +1,81 @@
+#rulesAdder {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 15px;
+    padding-left: 2px;
+
+    div {
+        color: white;
+    }
+
+    #saveBtn {
+        min-width: 55px;
+    }
+
+    #clearBtn {
+        .disabled {
+            pointer-events: none;
+            cursor: pointer;
+            opacity: 0.2;
+        }
+    }
+
+    #rulesAdderRightSide {
+        margin-left: 55px
+    }
+
+    &.preview {
+        input {
+            background-color: lightgray;
+        }
+    }
+
+    input {
+        height: 100%;
+        padding-left: 3px;
+        box-sizing: border-box;
+        border: 2px solid transparent;
+
+        &.error {
+            border: 2px solid #ea4f4f;
+        }
+    }
+
+    button {
+        height: 100%;
+
+        &.inspecting {
+            color: gold;
+        }
+    }
+
+    i {
+        margin-left: 10px;
+        font-size: 14px;
+        opacity: 0.7;
+    }
+
+    .inputContainer {
+        height: 22px;
+        margin-top: 6px;
+        margin-bottom: 15px;
+
+        &.bottom {
+            margin-bottom: 0px;
+        }
+    }
+
+    .colorInput {
+        display: none;
+        border: none;
+        width: 35px;
+        margin-left: 3px;
+        border-radius: 5px;
+        padding: 0px 1px; // Override chrome color type input padding
+        vertical-align: bottom;
+
+        &.visible {
+            display: inline-block;
+        }
+    }
+}

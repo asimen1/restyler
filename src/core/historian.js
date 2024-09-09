@@ -1,9 +1,9 @@
 // NOTE: 'history' is a reserved word in javascript, hence 'historian'.
 
-var rules = require('./rules.js');
+import rules from './rules.js';
 
-var _undoStack;
-var _redoStack;
+let _undoStack;
+let _redoStack;
 
 function init() {
     _undoStack = [];
@@ -12,7 +12,7 @@ function init() {
 
 function getBackup() {
     // NOTE: Simple cloning that will not work for more complex objects.
-    var clonedRules = JSON.parse(JSON.stringify(rules.getRules()));
+    let clonedRules = JSON.parse(JSON.stringify(rules.getRules()));
     return clonedRules;
 }
 
@@ -30,7 +30,7 @@ function addUndo(backup, keepRedoStack) {
 }
 
 function wrapUndoable(wrappedMethod, methodArgs, keepRedoStack) {
-    var backup = getBackup();
+    let backup = getBackup();
     wrappedMethod.apply(this, methodArgs);
     addUndo(backup, keepRedoStack);
 }
@@ -40,7 +40,7 @@ function destroy() {
     _redoStack = null;
 }
 
-module.exports = {
+export default {
     getUndoStack: function() { return _undoStack; },
     setUndoStack: function(undoStack) { _undoStack = undoStack; },
     getRedoStack: function() { return _redoStack; },
@@ -51,5 +51,5 @@ module.exports = {
     addRedo: addRedo,
     addUndo: addUndo,
     wrapUndoable: wrapUndoable,
-    destroy: destroy
+    destroy: destroy,
 };

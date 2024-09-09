@@ -1,18 +1,23 @@
 // Get the style attribute value in a standardized way (using $.css on an inserted DOM element).
-function getStandarizedValue(attr, val) {
+function getStandardizedValue(attr, val) {
+    // Don't try to standardize values with percentage (for example, font-size: 50%).
+    if (typeof val === 'string' && val.endsWith('%')) {
+        return val;
+    }
+
     // If the value is a number, better to convert it (css() works better in that case... for example for font-size).
-    var valFloatParsed = parseFloat(val);
+    let valFloatParsed = parseFloat(val);
     val = !Number.isNaN(valFloatParsed) ? valFloatParsed : val;
 
     // Elements must be added to dom in order to get their standardized css values.
-    var $dummyEl = $('<div style="display:none" class="restyler restylerDummyItem">');
+    let $dummyEl = $('<div style="display:none" class="restyler restylerDummyItem">');
 
     $dummyEl.css(attr, val);
     $(document.body).append($dummyEl);
 
-    var standarizedVal = $dummyEl.css(attr);
+    let standardizedVal = $dummyEl.css(attr);
     $dummyEl.remove();
-    return standarizedVal;
+    return standardizedVal;
 }
 
 function isInlineStyle($element, attr) {
@@ -25,22 +30,20 @@ function pad(n, width, z) {
     return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
 
-// NOTE: This fixes a bug where getting the computed style value immediatly after returned the old value.
-// NOTE: Apperantly forcing the display & offsetHeight forces the value to update correctly.
+// NOTE: This fixes a bug where getting the computed style value immediately after returned the old value.
+// NOTE: Apparently forcing the display & offsetHeight forces the value to update correctly.
 // http://stackoverflow.com/questions/3485365/how-can-i-force-webkit-to-redraw-repaint-to-propagate-style-changes
-/* jshint ignore:start */
 function fixRerenderElement($element) {
-    var origDisplayVal = $element[0].style.display;
+    let origDisplayVal = $element[0].style.display;
     $element[0].style.display = 'none';
     $element[0].offsetHeight; // no need to store this anywhere, the reference is enough
     $element[0].style.display = origDisplayVal;
 }
-/* jshint ignore:end */
 
 // NOTE: fixRerenderElement() has a side effect of losing the scrolling position.
 // NOTE: So, we store and restore scrolling when applying done.
-var scrollTop;
-var scrollLeft;
+let scrollTop;
+let scrollLeft;
 function fixScrollLocationStore() {
     scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
     scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
@@ -54,11 +57,11 @@ function fixScrollLocationRestore() {
     document.body.scrollLeft = scrollLeft;
 }
 
-module.exports = {
-    getStandarizedValue: getStandarizedValue,
+export default {
+    getStandardizedValue: getStandardizedValue,
     isInlineStyle: isInlineStyle,
     pad: pad,
     fixRerenderElement: fixRerenderElement,
     fixScrollLocationStore: fixScrollLocationStore,
-    fixScrollLocationRestore: fixScrollLocationRestore
+    fixScrollLocationRestore: fixScrollLocationRestore,
 };

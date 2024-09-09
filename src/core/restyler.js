@@ -1,12 +1,12 @@
 // RESTYLER - Asaf Menahem
 
-var Rules = require('./rules.js');
-var Observer = require('./observer.js');
-var Historian = require('./historian.js');
-var Helpers = require('./helpers.js');
+import Rules from './rules.js';
+import Observer from './observer.js';
+import Historian from './historian.js';
+import Helpers from './helpers.js';
 
-var inited = false;
-var enabled = true;
+let inited = false;
+let enabled = true;
 
 // ----------------------------------------------------
 // GENERAL VALIDATION.
@@ -19,28 +19,28 @@ if (window.Restyler) {
 // ----------------------------------------------------
 // RESTYLER !!!
 // ----------------------------------------------------
-window.Restyler = (function() { // jshint ignore:line
+window.Restyler = (function() {
 
     // ----------------------------------------------------
     // ELEMENTS MODIFICATION - start.
     // ----------------------------------------------------
 
     function revertEl(element) {
-        var $element = $(element);
+        let $element = $(element);
 
         // Observer should ignore this changes.
         Observer.stop();
 
         // Need to revert values only if haven't changed (for example not if inline style was set externally).
-        var data = $element.data('restylerTargetData');
-        var dataRules = data.rules;
+        let data = $element.data('restylerTargetData');
+        let dataRules = data.rules;
         while (dataRules.length > 0) {
             // 'pop' will ensure we revert in reverse order of rules pushed.
-            var currDataRule = dataRules.pop();
+            let currDataRule = dataRules.pop();
 
             // Check first if element still has our value (attribute has the value and with 'important').
-            var elAtrrVal = $element[0].style.getPropertyValue(currDataRule.attr);
-            var elAttrPriority = $element[0].style.getPropertyPriority(currDataRule.attr);
+            let elAtrrVal = $element[0].style.getPropertyValue(currDataRule.attr);
+            let elAttrPriority = $element[0].style.getPropertyPriority(currDataRule.attr);
             if (elAtrrVal === currDataRule.newVal && elAttrPriority === 'important') {
                 // If was inline, return the original value as inline.
                 // If wasn't inline, remove our added inline value.
@@ -64,7 +64,7 @@ window.Restyler = (function() { // jshint ignore:line
 
     // Apply the styles to a single element.
     function applyEl(element) {
-        var $element = $(element);
+        let $element = $(element);
 
         // Exclude our added elements.
         if (!$element.hasClass('restylerItem')) {
@@ -76,14 +76,14 @@ window.Restyler = (function() { // jshint ignore:line
             // If were in disabled state, don't apply any rules.
             if (enabled) {
                 // Iterate over the rules and change all matching elements.
-                var rules = Rules.getRules(true);
-                for (var i = 0; i < rules.length; i++) {
-                    var currRule = rules[i];
+                let rules = Rules.getRules(true);
+                for (let i = 0; i < rules.length; i++) {
+                    let currRule = rules[i];
                     if (currRule.options.enabled) {
                         // Compare attribute values and selector matching (if given).
                         // NOTE: Important to use 'css' and not 'getPropertyValue' since we standardized
                         // NOTE: the user input using 'css'.
-                        var elementVal = $element.css(currRule.attr);
+                        let elementVal = $element.css(currRule.attr);
 
                         if ((!currRule.origVal || elementVal === currRule.origVal) &&
                             (!currRule.options.selector || $element.is(currRule.options.selector))) {
@@ -109,7 +109,7 @@ window.Restyler = (function() { // jshint ignore:line
                                 prevVal: elementVal,
                                 prevPriority: $element[0].style.getPropertyPriority(currRule.attr),
                                 newVal: currRule.newVal,
-                                wasOrigValInline: Helpers.isInlineStyle($element, currRule.attr)
+                                wasOrigValInline: Helpers.isInlineStyle($element, currRule.attr),
                             });
 
                             // Apply the style to the element.
@@ -163,11 +163,11 @@ window.Restyler = (function() { // jshint ignore:line
     // Options (optional):
     // - selector: JQuery selector that the rule will apply only to its matched elements.
     function style(id, attr, origVal, newVal, options, isPreview) {
-        var standarizedOrigVal = origVal ? Helpers.getStandarizedValue(attr, origVal) : null;
-        var standarizedNewVal = Helpers.getStandarizedValue(attr, newVal);
+        let standardizedOrigVal = origVal ? Helpers.getStandardizedValue(attr, origVal) : null;
+        let standardizedNewVal = Helpers.getStandardizedValue(attr, newVal);
 
         // Add the rule (will use existing if already exists) and reapply all.
-        Rules.add(id, attr, standarizedOrigVal, standarizedNewVal, options, isPreview);
+        Rules.add(id, attr, standardizedOrigVal, standardizedNewVal, options, isPreview);
         applyAll();
     }
 
@@ -203,8 +203,8 @@ window.Restyler = (function() { // jshint ignore:line
     }
 
     function undo() {
-        var undoStack = Historian.getUndoStack();
-        var backup = undoStack.length > 0 ? undoStack.pop() : null;
+        let undoStack = Historian.getUndoStack();
+        let backup = undoStack.length > 0 ? undoStack.pop() : null;
         if (backup) {
             // Each undo enables a redo.
             Historian.addRedo();
@@ -217,8 +217,8 @@ window.Restyler = (function() { // jshint ignore:line
     }
 
     function redo() {
-        var redoStack = Historian.getRedoStack();
-        var backup = redoStack.length > 0 ? redoStack.pop() : null;
+        let redoStack = Historian.getRedoStack();
+        let backup = redoStack.length > 0 ? redoStack.pop() : null;
         if (backup) {
             // Clear all and apply the backup rules.
             reset();
@@ -228,31 +228,31 @@ window.Restyler = (function() { // jshint ignore:line
     }
 
     function exportConfig() {
-        var config = [];
+        let config = [];
 
-        var rules = Rules.getRules();
-        for (var i = 0; i < rules.length; i++) {
-            var currRule = rules[i];
+        let rules = Rules.getRules();
+        for (let i = 0; i < rules.length; i++) {
+            let currRule = rules[i];
             config.push({
                 attr: currRule.attr,
                 origVal: currRule.origVal,
                 newVal: currRule.newVal,
-                options: currRule.options
+                options: currRule.options,
             });
         }
 
         // Save to file.
-        var date = new Date();
-        var year = Helpers.pad(date.getFullYear(), 4);
-        var month = Helpers.pad(date.getMonth() + 1, 2);
-        var day = Helpers.pad(date.getDate(), 2);
-        var hours = Helpers.pad(date.getHours(), 2);
-        var minutes = Helpers.pad(date.getMinutes(), 2);
-        var seconds = Helpers.pad(date.getSeconds(), 2);
-        var formattedTime = [year, month, day, hours, minutes, seconds].join('');
-        var fileName = 'restyler_config-' + formattedTime + '.json';
-        var $downloadLink = $('<a target="_blank" title="Download Restyler Config" download="' + fileName + '">');
-        var blob = new Blob([JSON.stringify(config)], { type: 'text/plain' });
+        let date = new Date();
+        let year = Helpers.pad(date.getFullYear(), 4);
+        let month = Helpers.pad(date.getMonth() + 1, 2);
+        let day = Helpers.pad(date.getDate(), 2);
+        let hours = Helpers.pad(date.getHours(), 2);
+        let minutes = Helpers.pad(date.getMinutes(), 2);
+        let seconds = Helpers.pad(date.getSeconds(), 2);
+        let formattedTime = [year, month, day, hours, minutes, seconds].join('');
+        let fileName = 'restyler_config-' + formattedTime + '.json';
+        let $downloadLink = $('<a target="_blank" title="Download Restyler Config" download="' + fileName + '">');
+        let blob = new Blob([JSON.stringify(config)], { type: 'text/plain' });
         $downloadLink.attr('href', URL.createObjectURL(blob));
         $(document.body).append($downloadLink);
         $downloadLink[0].click(); // NOTE: jquery click() doesn't work for some reason...
@@ -261,13 +261,13 @@ window.Restyler = (function() { // jshint ignore:line
 
     function importConfig() {
         return new Promise(function(resolve, reject) {
-            var $importInput = $('<input type="file" accept=".json">');
+            let $importInput = $('<input type="file" accept=".json">');
             $importInput.on('change', function(e) {
                 if (e.target.files && e.target.files.length === 1) {
-                    var fileReader = new FileReader();
+                    let fileReader = new FileReader();
                     fileReader.onload = function(event) {
-                        var result = event.target.result;
-                        var rulesArr = JSON.parse(result);
+                        let result = event.target.result;
+                        let rulesArr = JSON.parse(result);
 
                         // Reset all rules first.
                         reset();
@@ -345,6 +345,6 @@ window.Restyler = (function() { // jshint ignore:line
 
         exportConfig: exportConfig,
         importConfig: importConfig,
-        destroy: destroy
+        destroy: destroy,
     };
 })();

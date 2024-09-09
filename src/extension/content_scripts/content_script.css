@@ -1,0 +1,9 @@
+.restylerInspect {
+    cursor: default !important;
+    outline: 1px solid blue !important;
+    background-color: rgba(241, 206, 48, 0.21) !important;
+}
+
+.restylerContentEditable {
+    cursor: default !important;
+}

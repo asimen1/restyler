@@ -1,7 +1,61 @@
 <!doctype html>
 <html>
     <head>
-        <link href="stylesheets/style.css" rel="stylesheet" type="text/css" />
+        <style>
+            body {
+                font-family: "Raleway", sans-serif;
+                line-height: 1.5;
+                text-align: center;
+                background: url("./images/bg.jpg");
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                color: #fff;
+                margin: 0;
+                padding: 0;
+            }
+            
+            h1 {
+                font-size: 48px;
+                font-family: "Kaushan Script", cursive;
+                font-weight: normal;
+            }
+            
+            section {
+                text-align: left;
+                max-width: 1024px;
+                margin: 0 auto;
+            }
+            
+            img {
+                max-width: 100%;
+                margin-top: 10px;
+                margin-bottom: 20px;
+                box-shadow: 0px 30px 15px -20px rgba(0, 0, 0, 0.4);
+            }
+            
+            li {
+                margin-bottom: 20px;
+            }
+            
+            a {
+                color: #fff;
+            }
+            a:hover {
+                color: gold;
+            }
+            
+            section#comments li, section#links li {
+                margin-bottom: 10px;
+            }
+            
+            footer {
+                background: rgba(0, 0, 0, 0.5);
+                border-top: 1px solid rgba(255, 255, 255, 0.2);
+                box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
+                padding: 40px 0 100px 0;
+            }
+        </style>
+
         <link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Raleway" rel="stylesheet">    
     </head>
     <body>
@@ -25,18 +79,18 @@
                         <div>Open the Developer Tools window (Ctrl+Shift+I or Ctrl+Opt+I in Mac) and goto the Restyler tab.</div>
                         <div>You can try it out on this page!</div>
                     <div class="image">
-                        <img src="images/img1.png"/>
+                        <img src="./images/img1.png"/>
                     </div>
                     </div>
                 </li>
                 <li>
                     <div class="text">
                         <div>Pick an attribute you would like to change, for example "color".</div>
-                        <div>Let's add a style rule that will replace any element with original value of "white" to "green".</div>
-                        <div>We can also change all color values to "green" if we leave the original value field empty.</div>
+                        <div>Let's add a style rule that will replace any element with original value of "white" to "yellow".</div>
+                        <div>We can also change all color values to "yellow" if we leave the original value field empty.</div>
                     </div>
                     <div class="image">
-                        <img src="images/img2.png"/>
+                        <img src="./images/img2.png"/>
                     </div>
                 </li>
                 <li>
@@ -61,7 +115,7 @@
                         <div>Turn it on and every text in the page is editable!</div>
                     </div>
                     <div class="image">
-                        <img src="images/img3.png"/>
+                        <img src="./images/img3.png"/>
                     </div>
                 </li>
             </ol>

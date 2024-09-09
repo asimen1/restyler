@@ -1,8 +1,8 @@
-var _rules = [];
+let _rules = [];
 
 function getRule(id) {
-    var rule = null;
-    for (var i = 0; i < _rules.length; i++) {
+    let rule = null;
+    for (let i = 0; i < _rules.length; i++) {
         if (_rules[i].id === id) {
             rule = _rules[i];
             break;
@@ -19,22 +19,22 @@ function getRule(id) {
 function add(id, attr, origVal, newVal, options, isPreview) {
     options = options || {};
 
-    var rule = {
+    let rule = {
         id: id,
         attr: attr,
         origVal: origVal,
         newVal: newVal,
         options: options,
-        isPreview: isPreview
+        isPreview: isPreview,
     };
 
     _rules.push(rule);
 }
 
 function remove(id) {
-    var origRulesLength =  _rules.length;
+    let origRulesLength =  _rules.length;
 
-    for (var i = 0; i < _rules.length; i++) {
+    for (let i = 0; i < _rules.length; i++) {
         if (_rules[i].id === id) {
             _rules.splice(i, 1);
             break;
@@ -47,12 +47,12 @@ function remove(id) {
 }
 
 function disable(id) {
-    var rule = getRule(id);
+    let rule = getRule(id);
     rule.options.enabled = false;
 }
 
 function enable(id) {
-    var rule = getRule(id);
+    let rule = getRule(id);
     rule.options.enabled = true;
 }
 
@@ -60,21 +60,21 @@ function reset() {
     _rules = [];
 }
 
-module.exports = {
+export default {
     getRules: function(includePreview) {
         if (includePreview) {
             return _rules;
         } else {
-            return _rules.filter(function(rule) {
-                return !rule.isPreview;
-            });
+            return _rules.filter(rule => !rule.isPreview);
         }
     },
-    setRules: function(rules) { _rules = rules; },
+    setRules: function(rules) {
+        _rules = rules;
+    },
 
     add: add,
     remove: remove,
     disable: disable,
     enable: enable,
-    reset: reset
+    reset: reset,
 };

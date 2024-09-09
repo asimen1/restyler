@@ -1,34 +1,34 @@
-var Helpers = require('./helpers.js');
-var Rules = require('./rules.js');
+import Helpers from './helpers.js';
+import Rules from './rules.js';
 
 // https://developer.mozilla.org/en/docs/Web/API/Node/nodeType
-var ELEMENT_NODE_TYPE = 1;
+let ELEMENT_NODE_TYPE = 1;
 
 // Configuration of the observer.
-var OBSERVER_CONFIG = {
+let OBSERVER_CONFIG = {
     attributes: true, // attributes change
     attributeFilter: ['style', 'class'], // only this attributes are relevant for styling
     attributeOldValue: true, // record attribute old value on mutation
     childList: true, // node elements added / removed
-    subtree: true // observe entire subtree of target element
+    subtree: true, // observe entire subtree of target element
 };
 
-var _observer;
+let _observer;
 
 // Create an observer instance.
 function init(applyElHandler) {
     // Apply the handler on the given node AND all its children elements.
     // This is needed for the observer mutation handling since it does not fire for inner elements.
-    var applyElAndChildren = function(node) {
+    let applyElAndChildren = function(node) {
         Helpers.fixScrollLocationStore();
 
-        var allNodes = [node];
+        let allNodes = [node];
         while (allNodes.length) {
-            var currNode = allNodes.pop();
+            let currNode = allNodes.pop();
             applyElHandler(currNode);
 
             // Add all the node's child elements ('children' is guaranteed to return only element node types).
-            for (var i = 0; i < currNode.children.length; i++) {
+            for (let i = 0; i < currNode.children.length; i++) {
                 allNodes.push(currNode.children[i]);
             }
         }
@@ -47,9 +47,9 @@ function init(applyElHandler) {
                     }
                 } else if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
                     // NOTE: Node list and not an array...
-                    for (var i = 0; i < mutation.addedNodes.length; i++) {
+                    for (let i = 0; i < mutation.addedNodes.length; i++) {
                         // Apply only for Element nodes.
-                        var node = mutation.addedNodes[i];
+                        let node = mutation.addedNodes[i];
                         if (node.nodeType === ELEMENT_NODE_TYPE) {
                             applyElAndChildren(node);
                         }
@@ -80,9 +80,9 @@ function destroy() {
     _observer = null;
 }
 
-module.exports = {
+export default {
     init: init,
     stop: stop,
     start: start,
-    destroy: destroy
+    destroy: destroy,
 };

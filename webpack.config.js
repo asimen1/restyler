@@ -1,70 +1,99 @@
-/* eslint-env node, node */
+const path = require('path');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-const webpack = require('webpack');
-
-var CleanWebpackPlugin = require('clean-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-
-var env = process.env.WEBPACK_ENV;
-
-var config = {
-    devtool: env === 'build' ? 'eval' : 'source-map',
-
-    entry: {
-        // Core files:
-        'js/content_scripts/core/restyler.min.js': './src/core/restyler.js',
-
-        // Extension files:
-        'js/background/background.min.js': './src/extension/js/background/background.js',
-        'js/content_scripts/content_script.min.js': './src/extension/js/content_scripts/content_script.js',
-        'js/devtool/devtool.min.js': './src/extension/js/devtool/devtool.jsx'
-    },
-
-    output: {
-        path: './dist',
-        filename: '[name]' // This will use the entry key as the name.
-    },
-
-    plugins: [
-        new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': env === 'build' ? JSON.stringify('production') : undefined
-            }
-        }),
-
-        new CleanWebpackPlugin(['dist']),
-
-        // This also watches the folder in watch mode.
-        new CopyWebpackPlugin([{
-            from: './src/extension',
-
-            // Ignore webpacked files.
-            ignore: ['background.js', 'content_script.js', '*.jsx', '*.scss', '*.handlebars']
-        }])
-    ],
-
-    module: {
-        loaders: [{
-            test: /\.(js|jsx)$/,
-            exclude: /node_modules/,
-            loader: 'babel-loader'
-        }, {
-            test: /\.scss$/,
-            exclude: /node_modules/,
-            loaders: ['style-loader', 'css-loader', 'sass-loader']
-        }, {
-            test: /\.handlebars$/,
-            exclude: /node_modules/,
-            loader: 'handlebars-loader'
-        }]
-    },
-
-    // NOTE: Stupid fix for https://github.com/wycats/handlebars.js/issues/1174.
-    resolve: {
-        alias: {
-            handlebars: 'handlebars/dist/handlebars.min.js'
-        }
-    }
+const ENTRY_FILES = {
+    restyler: path.join(__dirname, 'src', 'core', 'restyler.js'),
+    background: path.join(__dirname, 'src', 'extension', 'background', 'background.js'),
+    content_script: path.join(__dirname, 'src', 'extension', 'content_scripts', 'content_script.js'),
+    devtool: path.join(__dirname, 'src', 'extension', 'devtool', 'components', 'Devtool', 'Devtool.jsx'),
 };
 
-module.exports = config;
+module.exports = (env, argv) => {
+    let mode = argv.mode ?? 'production';
+
+    return {
+        mode: mode,
+
+        // NOTE: This is important to create a CSP compliant output that doesn't use eval and
+        // NOTE: therefore doesn't require "unsafe-eval" policy declaration in the manifest.json.
+        devtool: 'source-map',
+
+        entry: {
+            // Core files:
+            'content_scripts/core/restyler.min.js': ENTRY_FILES.restyler,
+
+            // Extension files:
+            'background/background.min.js': ENTRY_FILES.background,
+            'content_scripts/content_script.min.js': ENTRY_FILES.content_script,
+            'devtool/devtool.min.js': ENTRY_FILES.devtool,
+        },
+
+        output: {
+            path: path.join(__dirname, 'dist'),
+            filename: '[name]', // This will use the entry key as the name.
+            publicPath: '/', // Required for webpack-dev-server.
+        },
+
+        plugins: [
+            new CleanWebpackPlugin({
+                // Automatically remove all unused webpack assets on rebuild.
+                cleanStaleWebpackAssets: true,
+            }),
+
+            // This also watches the folder in watch mode.
+            new CopyWebpackPlugin({
+                patterns: [
+                    path.join(__dirname, 'src', 'extension', 'manifest.json'),
+                    {
+                        from: path.join(__dirname, 'src', 'extension', 'icons'),
+                        to: path.join(__dirname, 'dist', 'icons'),
+                    },
+                    {
+                        from: path.join(__dirname, 'src', 'extension', 'devtool', 'html'),
+                        to: path.join(__dirname, 'dist', 'devtool', 'html'),
+                    },
+                    {
+                        from: path.join(__dirname, 'src', 'extension', 'devtool', 'devtoolLoader.js'),
+                        to: path.join(__dirname, 'dist', 'devtool'),
+                    },
+                    {
+                        from: path.join(__dirname, 'src', 'extension', 'content_scripts', 'content_script.css'),
+                        to: path.join(__dirname, 'dist', 'content_scripts'),
+                    },
+                    {
+                        from: path.join(__dirname, 'src', 'extension', 'vendor'),
+                        to: path.join(__dirname, 'dist', 'vendor'),
+                    },
+                ],
+            }),
+        ],
+
+        module: {
+            rules: [
+                {
+                    test: /\.(js|jsx)$/,
+                    exclude: /node_modules/,
+                    use: 'babel-loader',
+                },
+                {
+                    test: /\.scss$/,
+                    exclude: /node_modules/,
+                    use: [
+                        // Creates `style` nodes from JS strings.
+                        'style-loader',
+                        // Translates CSS into CommonJS.
+                        'css-loader',
+                        // Compiles Sass to CSS.
+                        'sass-loader',
+                    ],
+                },
+                {
+                    test: /\.handlebars$/,
+                    exclude: /node_modules/,
+                    use: 'handlebars-loader',
+                },
+            ],
+        },
+    };
+};
